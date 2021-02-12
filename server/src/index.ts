@@ -5,6 +5,7 @@ import geckos, { Data, GeckosServer } from "@geckos.io/server";
 import http from "http";
 import express from "express";
 import fetch from "node-fetch";
+import morgan from "morgan";
 
 const name = "offical server";
 const url = "http://localhost";
@@ -12,6 +13,7 @@ const port = 4000;
 let id: number;
 
 const app = express();
+app.use(morgan('dev'));
 const server = http.createServer(app);
 const io: GeckosServer = geckos({
   authorization: async (
@@ -28,6 +30,7 @@ const io: GeckosServer = geckos({
     const response = await fetch("http://localhost:5000/verify_token", {
       method: "POST",
       body: JSON.stringify({
+        serverId: id,
         username,
         token,
       }),

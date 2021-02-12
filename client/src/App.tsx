@@ -68,7 +68,15 @@ const ServerList = () => {
     fetchList();
   }, []);
 
-  const onClick = (server: ServerWithId) => {
+  const onClick = async (server: ServerWithId) => {
+    await fetch("http://localhost:5000/game_server_connection_request", {
+      method: "POST",
+      body: JSON.stringify({
+        serverId: server.id,
+        token,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
     setServerDetails({
       url: server.url,
       port: parseInt(server.port),
